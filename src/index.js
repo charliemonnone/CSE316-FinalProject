@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 
 import './css/todo_layout.css'
 import './css/todo_style.css'
+import './css/wireframer_layout.css'
+
 import * as serviceWorker from './serviceWorker';
 
 import ReactReduxFirebaseApp from './store/ReactReduxFirebaseApp'

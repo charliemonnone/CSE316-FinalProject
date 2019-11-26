@@ -14,10 +14,8 @@ import DatabaseTester from './test/DatabaseTester'
 class App extends Component {
   render() {
     const { auth } = this.props;
-
-    // if auth is loaded then we render App.
-    // But if not then we doesn't render the one.
     if (auth.isLoaded) {
+      console.log(this.props.s);
       return (
         <BrowserRouter>
           <div className="App">
@@ -27,7 +25,7 @@ class App extends Component {
               <Route path="/databaseTester" component={DatabaseTester} />
               <Route path="/register" component={RegisterScreen} />
               <Route path="/login" component={LoginScreen} />
-              <Route path="/todoList/:id" component={ListScreen} />
+              {/* <Route path="/todoList/:id" component={ListScreen} /> */}
               <Route path="/:any" component={HomeScreen} />
             </Switch>
           </div>
@@ -41,6 +39,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   auth: state.firebase.auth,
+  s: state,
 });
 
 export default compose(

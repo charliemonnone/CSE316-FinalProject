@@ -48,3 +48,21 @@ input[type=email]:not(.browser-default):focus:not([readonly]) + label,
 input[type=password]:not(.browser-default):focus:not([readonly]) + label{
   color: #ec407a !important;
 }
+
+.container {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0% !important;
+}
+
+.spacer {
+  margin-bottom: 2% ;
+  margin-top: 2% ;
+}
+
+.scrollbar {
+    height: 300px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: dark;
+}

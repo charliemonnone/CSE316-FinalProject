@@ -29,17 +29,3 @@ export function loginError(error) {
 export function logoutSuccess() {
     return { type: 'LOGOUT_SUCCESS' }
 };
-
-// THESE CREATORS MAKE ACTIONS FOR ASYNCHRONOUS TODO LIST UPDATES
-export function createTodoList(todoList) {
-    return {
-        type: 'CREATE_TODO_LIST',
-        todoList
-    }
-}
-export function createTodoListError(error) {
-    return {
-        type: 'CREATE_TODO_LIST_ERROR',
-        error
-    }
-}

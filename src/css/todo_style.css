@@ -11,25 +11,22 @@
   --swatch-accent:        #669966; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */    
   --my-font-family:          "Robaaaoto";
   --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+  --highlight-one: linear-gradient(45deg, #ffce46 15%, transparent 10%, transparent 10%, #ffce46 10%, #ff7300);
+  --highlight-two: linear-gradient(45deg, #5993ff 15%, transparent 10%, transparent 10%, #5993ff 10%, #4083ff);
 }
 
 body {
-  background-color: var(--swatch-foundation);
+  background-color: #faf0e6;
   font-family: 'Lexend Exa';
 }
 
 div.banner {
-  background-image: linear-gradient(to bottom,         
-  #b8b808, #636723);
-  color: white;
-  font-size: 48pt;
-  border-color: black;
-  border-width: 2px;
-  border-style: solid;
-  border-radius: 10px;
-  padding-left: 10%;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  
+  background: var(--highlight-one);
+  border-radius: 5px;
+  border-color: var(--highlight-one);
+  
+
 }
 
 .home_new_list_button {
@@ -37,4 +34,53 @@ div.banner {
 }
 .home_new_list_button:hover {
   box-shadow: 1px 2px;
+}
+
+.card {
+  border-radius: 5px;
+}
+
+.card-anim {
+  animation: appear_in 0.7s ease;
+}
+.diagram-card {
+  border-radius: 5px;
+  background: var(--highlight-one);
+}
+.diagram-card:hover {
+  cursor: pointer;
+}
+/* .btn-gradient {
+  background: var(--highlight-two);
+} */
+.new-btn {
+  border-radius: 5px;
+}
+
+.nav-wrapper {
+  border-radius: 5px;
+
+}
+.brand-logo {
+  margin-left: 1%;
+}
+.brand-logo-text {
+  /* background: var(--highlight-one);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent; */
+}
+.profile-btn {
+  background: var(--highlight-one);
+}
+@keyframes appear_in {
+  from {
+    opacity: 0;
+    transform: translateX(-20rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
