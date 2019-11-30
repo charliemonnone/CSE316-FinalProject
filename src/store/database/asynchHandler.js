@@ -27,9 +27,36 @@ export const registerHandler = (newUser, firebase) => (dispatch, getState, { get
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         initials: `${newUser.firstName[0]}${newUser.lastName[0]}`,
+        user_level: 'ui_designer',
     })).then(() => {
         dispatch(actionCreators.registerSuccess);
     }).catch((err) => {
         dispatch(actionCreators.registerError);
     });
 };
+
+export const deleteDiagram = (id) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  let docRef  = firestore.collection('diagrams').doc(id);
+  docRef.delete();
+};
+
+export const createDiagram = (diagram) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  firestore.collection('diagrams').add({
+    ...diagram,
+  }).then(docRef => {
+    firestore.collection('last_added').doc('diagram').set({
+      last: docRef.id
+    });
+    
+  });
+}
+
+export const updateEditTime = (id) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  const docRef = firestore.collection('diagrams').doc(id);
+  docRef.update({
+    lastEdit: new Date(),
+  });
+}

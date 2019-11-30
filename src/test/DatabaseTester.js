@@ -23,7 +23,9 @@ class DatabaseTester extends React.Component {
                     owner_name: diagramJson.owner_name,
                     diagram_name: diagramJson.diagram_name,
                     key: diagramJson.key,
-                    components: diagramJson.components
+                    components: diagramJson.components,
+                    lastEdit: new Date(),
+                    sortBy: '',
                 }).then((docRef) => {
                     console.log(docRef)
                     console.log("DATABASE RESET");

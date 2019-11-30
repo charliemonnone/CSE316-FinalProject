@@ -40,12 +40,29 @@ div.banner {
   border-radius: 5px;
 }
 
-.card-anim {
-  animation: appear_in 0.7s ease;
+.delete-btn {
+
+}
+
+.card-anim, .left-slide-anim {
+  animation: appear_in_left 0.7s ease;
+
+}
+.right-slide-anim {
+  animation: appear_in_right 0.7s ease;
+
+}
+.fade-in-anim {
+  animation: appear_in_fade 1s ease;
+
+}
+.bottom-slide-anim {
+  animation: appear_in_bottom 0.7s ease;
+
 }
 .diagram-card {
   border-radius: 5px;
-  background: var(--highlight-one);
+  /* background: var(--highlight-one); */
 }
 .diagram-card:hover {
   cursor: pointer;
@@ -70,10 +87,19 @@ div.banner {
   background-clip: text;
   -webkit-text-fill-color: transparent; */
 }
+.side-bar {
+  z-index: 999;
+  border-radius: 5px;
+}
+.toolbar-card {
+  border-radius: 5px;
+  width: 15% !important;
+}
+
 .profile-btn {
   background: var(--highlight-one);
 }
-@keyframes appear_in {
+@keyframes appear_in_left {
   from {
     opacity: 0;
     transform: translateX(-20rem);
@@ -82,5 +108,41 @@ div.banner {
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes appear_in_right {
+  from {
+    opacity: 0;
+    transform: translateX(20rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes appear_in_fade {
+  from {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes appear_in_bottom {
+  from {
+    opacity: 0;
+    transform: translateY(20rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
