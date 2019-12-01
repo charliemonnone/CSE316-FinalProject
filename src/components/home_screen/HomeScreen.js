@@ -10,8 +10,6 @@ class HomeScreen extends Component {
 
     state = {
         newList: false,
-        lastAdded: this.props.state.firestore.ordered.last_added,
-        userName: this.props.profile.firstName + "-" + this.props.profile.lastName,
     }
 
     handleNewDiagram = (e) => {
@@ -33,10 +31,15 @@ class HomeScreen extends Component {
         if (!this.props.auth.uid) {
             return <Redirect to="/login" />;
         }
-        // if (this.state.newList) {
-        //     const id = this.props.state.firestore.ordered.last_added[0].last;
-        //     return <Redirect to = {'/' + this.state.userName + "/edit/" + id} />
-        // }
+        if (this.state.newList) {
+            const id = this.props.state.controlFlow.last_added;
+            console.log(id);
+            if(id) {
+                const user = this.props.profile;
+                const username = user.firstName + "-" + user.lastName;
+                return <Redirect to = {'/' + username + "/edit/" + id} />
+            } 
+        }
 
         return (
             <div className="dashboard container">
@@ -89,6 +92,5 @@ export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
       { collection: 'diagrams', orderBy: ['lastEdit', 'desc'] },
-      { collection: 'last_added',}
     ]),
 )(HomeScreen);

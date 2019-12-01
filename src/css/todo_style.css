@@ -11,6 +11,7 @@
   --swatch-accent:        #669966; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */    
   --my-font-family:          "Robaaaoto";
   --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+  --transparency-bg-white: rgba(255,255,255,0.5);
   --highlight-one: linear-gradient(45deg, #ffce46 15%, transparent 10%, transparent 10%, #ffce46 10%, #ff7300);
   --highlight-two: linear-gradient(45deg, #5993ff 15%, transparent 10%, transparent 10%, #5993ff 10%, #4083ff);
 }
@@ -43,7 +44,20 @@ div.banner {
 .delete-btn {
 
 }
+.toolbar-text {
+  font-size: 30px !important;
+}
 
+.toolbar-btn:hover {
+  cursor: pointer;
+}
+.toolbar-btn {
+  background: var(--highlight-one);
+}
+.layout-area {
+  background: var(--transparency-bg-white);
+  /* opacity: 0.5; */
+}
 .card-anim, .left-slide-anim {
   animation: appear_in_left 0.7s ease;
 
@@ -90,11 +104,12 @@ div.banner {
 .side-bar {
   z-index: 999;
   border-radius: 5px;
+  width: 120px;
+  position: relative; 
+  overflow-x: hidden; 
+  
 }
-.toolbar-card {
-  border-radius: 5px;
-  width: 15% !important;
-}
+
 
 .profile-btn {
   background: var(--highlight-one);

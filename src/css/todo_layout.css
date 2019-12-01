@@ -59,6 +59,9 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
   margin-bottom: 2% ;
   margin-top: 2% ;
 }
+.horizontal-spacer {
+  margin-right: 0.5%;
+}
 .content-area {
   height: 100% !important;
   min-height: 100% !important;
@@ -72,15 +75,32 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
 }
 
 .layout-area {
-  /* display: block; */
-  /* margin-left: auto; */
-  /* margin-right: auto; */
-  /* width: 70% !important; */
-  /* height: 550px !important; */
-  height: 38em !important;
-  /* width: 60% !important; */
-  /* margin-right: 0% !important; */
+  position: absolute;
+  overflow: auto;
+  left: 10% !important;
+  max-width: 80%;
+  max-height: 80%;
+  /* width: 80% ; */
+  /* height: 80% ; */
+  /* resize: both; */
 }
 .side-bar {
-  /* width: 15% !important;  */
+}
+.toolbar-card {
+  border-radius: 5px;
+  height: 10% !important;
+  margin: .5rem 0 .5rem 0;
+}
+.toolbar-btn {
+  height: 100% !important;
+}
+.wireframe-control {
+  margin-right: 10px !important;
+  border-radius: 5px;
+  max-width: 10% !important;
+  height: 2em !important;
+}
+.input-field {
+  margin-top: 0em !important;
+  margin-bottom: 0em !important;
 }

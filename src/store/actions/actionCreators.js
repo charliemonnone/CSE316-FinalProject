@@ -11,6 +11,7 @@ export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const UPDATE_LAST_ADDED = 'UPDATE_LAST_ADDED';
 
 // THESE CREATORS MAKE ACTIONS ASSOCIATED WITH USER ACCOUNTS
 
@@ -29,3 +30,6 @@ export function loginError(error) {
 export function logoutSuccess() {
     return { type: 'LOGOUT_SUCCESS' }
 };
+export function updateLastAdded(id) {
+    return { type: 'UPDATE_LAST_ADDED', id}
+}

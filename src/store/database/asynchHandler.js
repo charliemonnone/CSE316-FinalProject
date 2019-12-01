@@ -46,9 +46,7 @@ export const createDiagram = (diagram) => (dispatch, getState, { getFirestore })
   firestore.collection('diagrams').add({
     ...diagram,
   }).then(docRef => {
-    firestore.collection('last_added').doc('diagram').set({
-      last: docRef.id
-    });
+    dispatch(actionCreators.updateLastAdded(docRef.id));
     
   });
 }

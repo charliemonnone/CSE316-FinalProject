@@ -23,6 +23,7 @@ class DatabaseTester extends React.Component {
                     owner_name: diagramJson.owner_name,
                     diagram_name: diagramJson.diagram_name,
                     key: diagramJson.key,
+                    wireframe: diagramJson.wireframe,
                     components: diagramJson.components,
                     lastEdit: new Date(),
                     sortBy: '',
