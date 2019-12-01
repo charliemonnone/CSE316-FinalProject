@@ -18,6 +18,7 @@ class HomeScreen extends Component {
         const username = user.firstName + "-" + user.lastName;
         const newDiagram =  {
             diagram_name: 'Unknown',
+            wireframe: {width: 500, height: 500},
             owner_name: username,
             components: [],
             lastEdit: new Date(),
@@ -32,12 +33,20 @@ class HomeScreen extends Component {
             return <Redirect to="/login" />;
         }
         if (this.state.newList) {
-            const id = this.props.state.controlFlow.last_added;
+            const id = this.props.state.controlFlow.last_added_id;
+            const diagramToLoad = this.props.state.controlFlow.last_added_object;
             console.log(id);
             if(id) {
+
                 const user = this.props.profile;
                 const username = user.firstName + "-" + user.lastName;
-                return <Redirect to = {'/' + username + "/edit/" + id} />
+                const newRoute = {
+                    pathname: '/' + username + "/edit/" + id,
+                    state:{
+                        diagram: diagramToLoad
+                    }
+                }
+                return <Redirect to = {newRoute} />
             } 
         }
 

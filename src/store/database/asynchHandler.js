@@ -37,7 +37,7 @@ export const registerHandler = (newUser, firebase) => (dispatch, getState, { get
 
 export const deleteDiagram = (id) => (dispatch, getState, { getFirestore }) => {
   const firestore = getFirestore();
-  let docRef  = firestore.collection('diagrams').doc(id);
+  let docRef = firestore.collection('diagrams').doc(id);
   docRef.delete();
 };
 
@@ -46,7 +46,7 @@ export const createDiagram = (diagram) => (dispatch, getState, { getFirestore })
   firestore.collection('diagrams').add({
     ...diagram,
   }).then(docRef => {
-    dispatch(actionCreators.updateLastAdded(docRef.id));
+    dispatch(actionCreators.updateLastAdded(docRef.id, diagram));
     
   });
 }

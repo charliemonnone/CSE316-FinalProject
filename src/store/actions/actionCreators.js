@@ -30,6 +30,6 @@ export function loginError(error) {
 export function logoutSuccess() {
     return { type: 'LOGOUT_SUCCESS' }
 };
-export function updateLastAdded(id) {
-    return { type: 'UPDATE_LAST_ADDED', id}
+export function updateLastAdded(id, diagram) {
+    return { type: 'UPDATE_LAST_ADDED', id, diagram}
 }

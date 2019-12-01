@@ -51,7 +51,7 @@ div.banner {
 .toolbar-btn:hover {
   cursor: pointer;
 }
-.toolbar-btn {
+.toolbar-btn-color {
   background: var(--highlight-one);
 }
 .layout-area {

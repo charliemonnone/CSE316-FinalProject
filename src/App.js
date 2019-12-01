@@ -15,7 +15,6 @@ class App extends Component {
   render() {
     const { auth } = this.props;
     if (auth.isLoaded) {
-      console.log(this.props.s);
       return (
         <BrowserRouter>
           <div className="App">

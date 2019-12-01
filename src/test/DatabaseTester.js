@@ -37,6 +37,8 @@ class DatabaseTester extends React.Component {
     }
 
     render() {
+        console.log("in tester")
+        console.log(this.props.firebase);
         return (
             <div>
                 <button onClick={this.handleClear}>Clear Database</button>
