@@ -4,12 +4,16 @@ import { compose } from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import { createDiagram } from '../../store/database/asynchHandler';
-import DiagramLinks from './DiagramLinks'
+import { deleteDiagram } from '../../store/database/asynchHandler';
+import DiagramLinks from './DiagramLinks';
+import DeleteModal from './DeleteModal';
 
 class HomeScreen extends Component {
 
     state = {
         newList: false,
+        modal: false,
+        selectedDiagram : '',
     }
 
     handleNewDiagram = (e) => {
@@ -26,6 +30,18 @@ class HomeScreen extends Component {
         }
         this.props.createDiagram(newDiagram);
         this.setState({newList : true});
+    }
+
+    handleDelete = (e, choice) => {
+        e.preventDefault();
+        if(choice) this.props.deleteDiagram(this.state.selectedDiagram);
+        this.toggleModal();
+    }
+
+    toggleModal = (id) => {
+        this.setState({modal: !this.state.modal});
+        this.setState({selectedDiagram: id})
+
     }
 
     render() {
@@ -52,6 +68,7 @@ class HomeScreen extends Component {
 
         return (
             <div className="dashboard container">
+                <DeleteModal visible={this.state.modal} handleDelete={this.handleDelete} />
                 <div className="row">
                     {/* <div className="col s6 offset-s3">
                         <div className="card grey darken-3 card-anim">
@@ -60,7 +77,7 @@ class HomeScreen extends Component {
                         
                     </div> */}
                     <div className="left-slide-anim divider col s6 offset-s3 spacer grey darken-1"></div>
-                    <div className="col s4 offset-s4 diagram-list scrollbar" id="style-1"> <DiagramLinks /> </div>
+                    <div className="col s4 offset-s4 diagram-list scrollbar" id="style-1"> <DiagramLinks toggleModal={this.toggleModal} /> </div>
                     <div className="right-slide-anim divider col s6 offset-s3 spacer grey darken-1"></div>
                     <div className="bottom-slide-anim col s4 offset-s4 waves-effect waves-light btn new-btn hoverable pink accent-3"
                         onClick={this.handleNewDiagram}>
@@ -95,6 +112,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
     createDiagram: (newDiagram) => dispatch(createDiagram(newDiagram)),
+    deleteDiagram: (id) => dispatch(deleteDiagram(id)),
 });
 
 export default compose(

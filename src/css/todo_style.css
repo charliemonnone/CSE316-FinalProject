@@ -30,6 +30,41 @@ div.banner {
 
 }
 
+.modal { 
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 999;
+  border-radius: 5px;
+  background-color: rgba(0,0,0,0.4); 
+  transition:  ease-out 0.7s ;
+
+}
+.modal-content {
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  top: 4% ;
+  left: 20% ;
+  width: 60%;
+  height: 80%;
+  border-radius: 5px;
+}
+.modal.is_visible {
+  visibility: visible;
+  opacity: 1;
+}
+
 .home_new_list_button {
   font-size: 32pt;
 }
@@ -61,6 +96,9 @@ div.banner {
 .card-anim, .left-slide-anim {
   animation: appear_in_left 0.7s ease;
 
+}
+.left-slide-out-anim {
+  animation: appear_out_left 0.7s ease;
 }
 .right-slide-anim {
   animation: appear_in_right 0.7s ease;
@@ -123,6 +161,17 @@ div.banner {
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+@keyframes appear_out_left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-20rem);
   }
 }
 
