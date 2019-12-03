@@ -79,23 +79,10 @@ class HomeScreen extends Component {
                     <div className="left-slide-anim divider col s6 offset-s3 spacer grey darken-1"></div>
                     <div className="col s4 offset-s4 diagram-list scrollbar" id="style-1"> <DiagramLinks toggleModal={this.toggleModal} /> </div>
                     <div className="right-slide-anim divider col s6 offset-s3 spacer grey darken-1"></div>
-                    <div className="bottom-slide-anim col s4 offset-s4 waves-effect waves-light btn new-btn hoverable pink accent-3"
+                    <div className="bottom-slide-anim col s4 offset-s4 waves-effect waves-light btn new-btn hoverable general-btn-color"
                         onClick={this.handleNewDiagram}>
                         Create a New Diagram
                     </div>
-                    {/* <div className="col s8">
-                    <div className="card z-depth-0.5 banner ">
-                        <div className="card-content center-align white-text">
-                            <div className="card-title"><h1>Wireframer</h1></div>
-                        </div>
-                    </div>
-
-                        <div className="home_new_list_container">
-                                <button className="home_new_list_button" onClick={this.handleNewList}>
-                                    Create a New Diagram
-                                </button>
-                        </div>
-                    </div> */}
                 </div>
             </div>
         );

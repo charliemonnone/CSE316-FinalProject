@@ -1,3 +1,5 @@
+
+
 html {
   min-height: 100%;
 }
@@ -39,15 +41,15 @@ input[type=text]:not(.browser-default):focus:not([readonly]),
 input[type=email]:not(.browser-default):focus:not([readonly]),
 input[type=password]:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]){
-  border-color: #ec407a;
-  box-shadow: none;
+border-color: gold;
+box-shadow: none;
 }
 
 input[type=text]:not(.browser-default):focus:not([readonly]) + label,
 textarea.materialize-textarea:focus:not([readonly]) + label,
 input[type=email]:not(.browser-default):focus:not([readonly]) + label,
 input[type=password]:not(.browser-default):focus:not([readonly]) + label{
-  color: #ec407a !important;
+color: gold !important;
 }
 
 .container {
@@ -84,19 +86,71 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
   max-width: 82% !important;
   max-height: 80% !important;
   transform: scale(1);
+  transition: width 0.5s ease-in, height 0.5s ease-in, transform 0.5s ease-in;
 }
 
 .layout-area {
-  /* position: relative; */
-  /* left: 10% !important; */
+  position: relative;
+  left: 1% !important;
+  top: 1% !important;
+  bottom: 1% !important;
+  right: 1% !important;
   min-width: 100% !important;
   min-height: 100% !important;
   transform-origin: 0% 0% 0px;
-  transform: scale(1);
-  transition: transform 0.5s ease-in;
+  transform: scale(0.9);
+  transition: width 0.5s ease-in, height 0.5s ease-in, transform 0.5s ease-in;
 
 }
 .side-bar {
+
+}
+.left-side-bar {
+  margin-top: 20%;
+  margin-bottom: 20%;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 90%;
+  height: 30%;
+  border-radius: 5px;
+}
+.mock-container {
+  /* border: 2px solid gray; */
+  border-radius: 3px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 1em;
+  width: 90% !important;
+  height: 10% !important;
+}
+.mock-button {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 0em;
+  width: 90% !important;
+  height: 10% !important;
+}
+.mock-input {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 0em;
+  width: 90% !important;
+  height: 10% !important;
+}
+.mock-label {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 0em;
+  width: 90% !important;
+  height: 10% !important;
 }
 .toolbar-card {
   border-radius: 5px;
@@ -106,11 +160,14 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
 .toolbar-btn {
   height: 100% !important;
 }
-.wireframe-control {
+.wireframe-option {
   margin-right: 10px !important;
   border-radius: 5px;
   max-width: 10% !important;
   height: 2em !important;
+}
+.wireframe-control {
+  position: absolute;
 }
 .input-field {
   margin-top: 0em !important;

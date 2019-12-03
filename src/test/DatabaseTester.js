@@ -22,7 +22,7 @@ class DatabaseTester extends React.Component {
             fireStore.collection('diagrams').add({
                     owner_name: diagramJson.owner_name,
                     diagram_name: diagramJson.diagram_name,
-                    key: diagramJson.key,
+                    // key: diagramJson.key,
                     wireframe: diagramJson.wireframe,
                     components: diagramJson.components,
                     lastEdit: new Date(),

@@ -11,9 +11,14 @@
   --swatch-accent:        #669966; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */    
   --my-font-family:          "Robaaaoto";
   --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
-  --transparency-bg-white: rgba(255,255,255,0.5);
+  --transparency-bg-white: rgba(255,255,255,0.3);
   --highlight-one: linear-gradient(45deg, #ffce46 15%, transparent 10%, transparent 10%, #ffce46 10%, #ff7300);
   --highlight-two: linear-gradient(45deg, #5993ff 15%, transparent 10%, transparent 10%, #5993ff 10%, #4083ff);
+}
+
+::placeholder {
+  color: #bdbdbd ;
+  opacity: 1;
 }
 
 body {
@@ -34,14 +39,14 @@ div.banner {
   display: block;
   position: absolute;
   width: 100%;
-  height: 100%;
-  top: 0;
+  height: 100% !important;
+  max-height: 100% !important;
+  top: 0%;
   left: 0;
   right: 0;
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  bottom: 0%;
+  margin-bottom: 3px;
+  margin-top: 1px;
   visibility: hidden;
   opacity: 0;
   z-index: 999;
@@ -52,12 +57,10 @@ div.banner {
 }
 .modal-content {
   position: absolute;
-  align-items: center;
-  justify-content: center;
-  top: 4% ;
-  left: 20% ;
-  width: 60%;
-  height: 80%;
+  top: 25% ;
+  left: 25% ;
+  width: 50%;
+  height: 40%;
   border-radius: 5px;
 }
 .modal.is_visible {
@@ -76,11 +79,17 @@ div.banner {
   border-radius: 5px;
 }
 
-.delete-btn {
 
+.left-side-bar:hover {
+  background: #e7dcd7;
+  transition: background 0.2s ease-in;
+  cursor: pointer;
 }
 .toolbar-text {
   font-size: 30px !important;
+}
+.general-btn-color {
+  background: var(--highlight-one); 
 }
 
 .toolbar-btn:hover {
@@ -90,7 +99,8 @@ div.banner {
   background: var(--highlight-one);
 }
 .layout-area {
-  background: var(--transparency-bg-white);
+  background: #d7ccc880;
+  /* background: var(--transparency-bg-white); */
   /* opacity: 0.5; */
 }
 .card-anim, .left-slide-anim {
@@ -133,12 +143,7 @@ div.banner {
 .brand-logo {
   margin-left: 1%;
 }
-.brand-logo-text {
-  /* background: var(--highlight-one);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent; */
-}
+
 .side-bar {
   z-index: 999;
   border-radius: 5px;
