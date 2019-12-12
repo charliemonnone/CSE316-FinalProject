@@ -100,12 +100,19 @@ color: gold !important;
   transform-origin: 0% 0% 0px;
   transform: scale(0.9);
   transition: width 0.5s ease-in, height 0.5s ease-in, transform 0.5s ease-in;
-
+  border-radius: 5px;
 }
 .side-bar {
-
+  top: 4px !important;
+  border-radius: 3px;
+}
+.side-bar-right {
+  top: 4px !important;
+  width: 20% !important;
+  border-radius: 3px;
 }
 .left-side-bar {
+  
   margin-top: 20%;
   margin-bottom: 20%;
   margin-left: 5%;
@@ -114,6 +121,23 @@ color: gold !important;
   height: 30%;
   border-radius: 5px;
 }
+.right-side-bar {  
+  /* margin: auto; */
+  margin-top: 0%;
+  margin-bottom: 20%;
+  width: 100%;
+  border-radius: 5px;
+}
+.right-side-text-input {
+  float: right;
+  width: 30% !important;
+  height: 50% !important;
+  margin-right: 5% !important;
+}
+.right-side-wrapper {
+  display: flex;
+}
+
 .mock-container {
   /* border: 2px solid gray; */
   border-radius: 3px;
@@ -133,6 +157,8 @@ color: gold !important;
   padding: 0em;
   width: 90% !important;
   height: 10% !important;
+  pointer-events: none;
+  border-radius: 3px;
 }
 .mock-input {
   margin-top: 5%;
@@ -142,6 +168,8 @@ color: gold !important;
   padding: 0em;
   width: 90% !important;
   height: 10% !important;
+  pointer-events: none;
+  border-radius: 3px;
 }
 .mock-label {
   margin-top: 5%;
@@ -151,6 +179,7 @@ color: gold !important;
   padding: 0em;
   width: 90% !important;
   height: 10% !important;
+  border-radius: 3px;
 }
 .toolbar-card {
   border-radius: 5px;
@@ -172,4 +201,88 @@ color: gold !important;
 .input-field {
   margin-top: 0em !important;
   margin-bottom: 0em !important;
+}
+.color-wrapper {
+  float: right;
+  background-color: gold;
+  border-radius: 50%;
+	width: 40px;
+  height: 40px;
+  margin-top: -10%;
+  margin-bottom: 20%;
+}
+
+input[type="color"] {
+  float: right;
+  opacity: 0;
+  border: none;
+  border-radius: 50% ;
+	width: 40px ;
+  height: 40px ;
+}
+
+.react-resizable {
+  position: relative;
+}
+.react-resizable-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+');
+  background-position: bottom right;
+  padding: 0 3px 3px 0;
+}
+.react-resizable-handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: sw-resize;
+  transform: rotate(90deg);
+}
+.react-resizable-handle-se {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+}
+.react-resizable-handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nw-resize;
+  transform: rotate(180deg);
+}
+.react-resizable-handle-ne {
+  top: 0;
+  right: 0;
+  cursor: ne-resize;
+  transform: rotate(270deg);
+}
+.react-resizable-handle-w,
+.react-resizable-handle-e {
+  top: 50%;
+  margin-top: -10px;
+  cursor: ew-resize;
+}
+.react-resizable-handle-w {
+  left: 0;
+  transform: rotate(135deg);
+}
+.react-resizable-handle-e {
+  right: 0;
+  transform: rotate(315deg);
+}
+.react-resizable-handle-n,
+.react-resizable-handle-s {
+  left: 50%;
+  margin-left: -10px;
+  cursor: ns-resize;
+}
+.react-resizable-handle-n {
+  top: 0;
+  transform: rotate(225deg);
+}
+.react-resizable-handle-s {
+  bottom: 0;
+  transform: rotate(45deg);
 }

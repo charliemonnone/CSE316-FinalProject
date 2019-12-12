@@ -99,9 +99,6 @@ div.banner {
   background: var(--highlight-one);
 }
 .layout-area {
-  background: #d7ccc880;
-  /* background: var(--transparency-bg-white); */
-  /* opacity: 0.5; */
 }
 .card-anim, .left-slide-anim {
   animation: appear_in_left 0.7s ease;
@@ -150,13 +147,28 @@ div.banner {
   width: 120px;
   position: relative; 
   overflow-x: hidden; 
-  
 }
-
 
 .profile-btn {
   background: var(--highlight-one);
 }
+
+.wireframe-container {
+  
+}
+
+.wireframe-label {
+  
+}
+
+.wireframe-button {
+  /* pointer-events: none; */
+}
+
+.wireframe-textfield {
+  pointer-events: none;
+}
+
 @keyframes appear_in_left {
   from {
     opacity: 0;

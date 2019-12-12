@@ -26,7 +26,6 @@ class HomeScreen extends Component {
             owner_name: username,
             components: [],
             lastEdit: new Date(),
-            sortBy: '',
         }
         this.props.createDiagram(newDiagram);
         this.setState({newList : true});
