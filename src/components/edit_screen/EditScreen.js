@@ -37,7 +37,7 @@ class EditScreen extends Component {
     handleNewComponent = (e, type) => {
         let cmps = this.state.components;
         let newComponent = {
-            key: this.state.components.length + 1,
+            key: this.state.components.length,
             type: '',
             value: '',
             x_position: 0,
@@ -73,6 +73,7 @@ class EditScreen extends Component {
                 break;
 
         }
+        console.log(newComponent)
         cmps.push(newComponent);
         this.setState({components: cmps});
 

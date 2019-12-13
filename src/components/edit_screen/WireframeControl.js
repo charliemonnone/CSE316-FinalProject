@@ -50,41 +50,46 @@ class WireframeControl extends React.Component {
         this.setProperties();
     }
 
-    dragElement = (id) => {
+    dragElement = (id, onMove) => {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         let elmnt = document.getElementById(id);
         elmnt.onmousedown = dragMouseDown;
         
         function dragMouseDown(e) {
-          e = e || window.event;
-          e.preventDefault();
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          document.onmouseup = closeDragElement;
-          document.onmousemove = elementDrag;
+            e = e || window.event;
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
         }
       
         function elementDrag(e) {
-          e = e || window.event;
-          e.preventDefault();
-          pos1 = pos3 - e.clientX;
-          pos2 = pos4 - e.clientY;
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-          elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            e = e || window.event;
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
           
         }
       
         function closeDragElement() {
-          document.onmouseup = null;
-          document.onmousemove = null;
-          elmnt.onmousedown = null;
+            document.onmouseup = null;
+            document.onmousemove = null;
+            elmnt.onmousedown = null;
+            let top = elmnt.style.top;
+            let left = elmnt.style.left;
+            let y = top.split('px')[0]
+            let x = left.split('px')[0]
+            onMove(x, y)
         }
       }
 
     render() {
-        
+        console.log(this.state.x)
         let elementStyle = 'wireframe-control z-depth-1 ';
         elementStyle += this.props.selected ? " selected " : " deselected ";
         const component = this.props.component;
@@ -93,14 +98,8 @@ class WireframeControl extends React.Component {
         const elementId = this.props.id;
         let handles = []
         if(this.props.selected == elementId) {
-            let top = document.getElementById(this.props.selected).style.top;
-            let left = document.getElementById(this.props.selected).style.left;
-            let y = top.split('px')[0]
-            let x = left.split('px')[0]
-            
-            if(x != this.state.x || y != this.state.y) this.onMove(x, y)
             handles = ['sw', 'se', 'nw', 'ne']
-            this.dragElement(elementId);
+            this.dragElement(elementId, this.onMove);
         } 
         let innerValue;
         switch(component.type) {
@@ -118,9 +117,8 @@ class WireframeControl extends React.Component {
         return(
             <Resizable id={elementId} onClick = {(e)=> this.props.select(e, elementId)} 
             height={this.state.height} width={this.state.width} onResize={this.onResize} resizeHandles={handles}
-            className={"box " + {elementStyle}}
-             >
-                <div className="box" style={{width: this.state.width + 'px', height: this.state.height + 'px'}} >
+            className={"box " + elementStyle}>
+                <div className={"box " + elementStyle} style={{width: this.state.width + 'px', height: this.state.height + 'px'}} >
                     {innerValue}
                 </div>
             </Resizable>

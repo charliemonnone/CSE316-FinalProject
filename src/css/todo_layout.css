@@ -197,6 +197,9 @@ color: gold !important;
 }
 .wireframe-control {
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .input-field {
   margin-top: 0em !important;
