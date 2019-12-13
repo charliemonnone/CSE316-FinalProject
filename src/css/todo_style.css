@@ -166,7 +166,14 @@ div.banner {
 }
 
 .wireframe-textfield {
-  pointer-events: none;
+}
+
+.selected {
+
+}
+
+.deselected {
+  cursor: auto !important;
 }
 
 @keyframes appear_in_left {
