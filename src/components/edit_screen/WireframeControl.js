@@ -16,12 +16,12 @@ class WireframeControl extends React.Component {
             type: props.component.type,
             properties: props.component.properties,
             selected: null,
-            cursors: "react-resizable-handle-sw react-resizable-handle-se react-resizable-handle-nw react-resizable-handle-ne"
         }
     }
 
     onResize = (event, {element, size, handle}) => {
         event.stopPropagation();
+        event.preventDefault();
         this.setState({width: size.width, height: size.height});
     };
 
@@ -46,6 +46,42 @@ class WireframeControl extends React.Component {
         this.setProperties();
     }
 
+    dragElement = (id) => {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        let elmnt = document.getElementById(id);
+        elmnt.onmousedown = dragMouseDown;
+        
+      
+        function dragMouseDown(e) {
+          e = e || window.event;
+          e.preventDefault();
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          document.onmouseup = closeDragElement;
+          document.onmousemove = elementDrag;
+        }
+      
+        function elementDrag(e) {
+          e = e || window.event;
+          e.preventDefault();
+          pos1 = pos3 - e.clientX;
+          pos2 = pos4 - e.clientY;
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+          elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+      
+        function closeDragElement() {
+          document.onmouseup = null;
+          document.onmousemove = null;
+          elmnt.onmousedown = null;
+        }
+      }
+
+
+
+
     render() {
         
         let elementStyle = 'wireframe-control z-depth-1 ';
@@ -54,9 +90,12 @@ class WireframeControl extends React.Component {
         const controlStyle = "wireframe-" + component.type;
         elementStyle += controlStyle ;
         const elementId = "wireframe-control-"+ this.props.id;
+        let handles = []
+        if(this.props.selected == elementId) {
+            handles = ['sw', 'se', 'nw', 'ne']
+            this.dragElement(elementId);
+        } 
         let innerValue;
-        if(this.props.selected) {
-        }
         switch(component.type) {
             case('label'):
             case('button'):
@@ -70,23 +109,30 @@ class WireframeControl extends React.Component {
                 break;
         }
         return(
-            <Rnd id={elementId} className = {elementStyle}
-                size={{ width: this.state.width, height: this.state.height }}
-                position={{ x: this.state.x, y: this.state.y }}
-                onDragStop={(e, d) => {
-                    this.setState({ x: d.x, y: d.y });
-                }}
-                onResizeStop={(e, direction, ref, delta, position) => {
-                    this.setState({
-                        width: ref.style.width,
-                        height: ref.style.height,
-                        ...position
-                    });
-                }}
-                onClick = {(e)=> this.props.select(e, elementId)}
-                >
-                {innerValue}
-            </Rnd>
+            // <Rnd id={elementId} className = {elementStyle}
+            //     size={{ width: this.state.width, height: this.state.height }}
+            //     position={{ x: this.state.x, y: this.state.y }}
+            //     onDragStop={(e, d) => {
+            //         this.setState({ x: d.x, y: d.y });
+            //     }}
+            //     onResizeStop={(e, direction, ref, delta, position) => {
+            //         this.setState({
+            //             width: ref.style.width,
+            //             height: ref.style.height,
+            //             ...position
+            //         });
+            //     }}
+            //     onClick = {(e)=> this.props.select(e, elementId)}
+            //     >
+            //     {innerValue}
+            // </Rnd>
+            <Resizable id={elementId} onClick = {(e)=> this.props.select(e, elementId)} 
+            height={this.state.height} width={this.state.width} onResize={this.onResize} resizeHandles={handles}
+             className={"box " + {elementStyle}} >
+                <div className="box" style={{width: this.state.width + 'px', height: this.state.height + 'px'}} >
+                    {innerValue}
+                </div>
+            </Resizable>
         );
     }
 

@@ -222,6 +222,12 @@ input[type="color"] {
 }
 
 
+.box {
+  margin: 0px !important;
+  position: absolute !important;
+}
+
+
 .react-resizable {
   position: relative;
 }
