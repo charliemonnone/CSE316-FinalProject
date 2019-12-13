@@ -31,6 +31,7 @@ class EditScreen extends Component {
             width: diagram.wireframe.width,
             height: diagram.wireframe.height,
         });
+        document.addEventListener('keydown',(e) => this.handleKeyDown(e))
     }
 
     handleNewComponent = (e, type) => {
@@ -77,6 +78,63 @@ class EditScreen extends Component {
 
     }
 
+    handleKeyDown = (e) => {
+        e.stopImmediatePropagation();
+        if (e.keyCode == 68 && e.ctrlKey) {
+            if(this.state.selected != undefined) {
+                console.log("in")
+                let duplicate = document.getElementById(this.state.selected).cloneNode();
+                let cmps = this.state.components;
+                let comp = cmps[duplicate.id]
+                let clone = Object.assign({}, comp)
+                clone.key = cmps.length;
+                cmps.push(clone)
+                this.setState({components: cmps});
+            }
+        }
+        if (e.keyCode == 46) {
+            if(this.state.selected) {
+                let element = document.getElementById(this.state.selected);
+                console.log(element.id)
+                let cmps = this.state.components;
+                cmps.splice(element.id, 1);
+                console.log(cmps)
+                this.setState({components: cmps});
+            }
+        }
+    }
+
+    deleteComponent = (e) => {
+        e.stopImmediatePropagation();   
+        if (e.keyCode == 46) {
+            console.log("delete")
+            if(this.state.selected) {
+                let element = document.getElementById(this.state.selected);
+                let cmps = this.state.components;
+                cmps.splice(element.id, 1);
+                // let comp = cmps[element.id]
+                // let clone = Object.assign({}, comp)
+                // clone.key =  cmps.length + 1;
+                // cmps.push(clone)
+                this.setState({components: cmps});
+            }
+        }
+    }
+
+    duplicateComponent = (e) => {
+        e.stopImmediatePropagation();
+        if (e.keyCode == 68 && e.ctrlKey) {
+            if(this.state.selected) {
+                let duplicate = document.getElementById(this.state.selected).cloneNode();
+                let cmps = this.state.components;
+                let comp = cmps[duplicate.id]
+                let clone = Object.assign({}, comp)
+                clone.key =  cmps.length + 1;
+                cmps.push(clone)
+                this.setState({components: cmps});
+            }
+        }
+    }
     goHome = () => {
         this.props.history.push('/ ');
     }
@@ -131,7 +189,7 @@ class EditScreen extends Component {
         if(!diagram)
              return <React.Fragment />
         return (
-            <div className="content-area">
+            <div className="content-area" >
                 <div className="row">
                     <div className=" left-slide-anim toolbar-card">
                             <div className=" btn toolbar-btn toolbar-btn-color horizontal-spacer waves-effect waves-light" onClick={(e) => this.handleChangeZoom(e, 2)} >
