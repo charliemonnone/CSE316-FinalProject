@@ -1,7 +1,6 @@
 import React from 'react';
-import { Rnd } from "react-rnd";
 const Resizable = require('react-resizable').Resizable;
-const ResizableBox = require('react-resizable').ResizableBox;
+
 
 
 class WireframeControl extends React.Component { 
@@ -86,18 +85,16 @@ class WireframeControl extends React.Component {
             let x = left.split('px')[0]
             onMove(x, y)
         }
-      }
+    }
 
     render() {
-        console.log(this.state.x)
         let elementStyle = 'wireframe-control z-depth-1 ';
-        elementStyle += this.props.selected ? " selected " : " deselected ";
         const component = this.props.component;
         const controlStyle = "wireframe-" + component.type;
         elementStyle += controlStyle ;
         const elementId = this.props.id;
         let handles = []
-        if(this.props.selected == elementId) {
+        if(this.props.selected === elementId) {
             handles = ['sw', 'se', 'nw', 'ne']
             this.dragElement(elementId, this.onMove);
         } 
@@ -111,7 +108,9 @@ class WireframeControl extends React.Component {
                 innerValue = String.fromCharCode(component.value)
                 break;
             case('textfield'):
-                innerValue = <input type="text" disabled placeholder={component.value}/>
+                innerValue = <input type="text" className="mock-input" disabled placeholder={component.value}/>
+                break;
+            default:
                 break;
         }
         return(

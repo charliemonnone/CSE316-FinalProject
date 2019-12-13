@@ -108,7 +108,7 @@ color: gold !important;
 }
 .side-bar-right {
   top: 4px !important;
-  width: 20% !important;
+  width: 18% !important;
   border-radius: 3px;
 }
 .left-side-bar {
@@ -124,7 +124,7 @@ color: gold !important;
 .right-side-bar {  
   /* margin: auto; */
   margin-top: 0%;
-  margin-bottom: 20%;
+  margin-bottom: 15%;
   width: 100%;
   border-radius: 5px;
 }
@@ -133,6 +133,10 @@ color: gold !important;
   width: 30% !important;
   height: 50% !important;
   margin-right: 5% !important;
+}
+.right-side-color-input {
+  float: right !important;
+  margin-left: 40%;
 }
 .right-side-wrapper {
   display: flex;
@@ -200,6 +204,10 @@ color: gold !important;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: default;
+}
+.wireframe-control:hover {
+  cursor: default;
 }
 .input-field {
   margin-top: 0em !important;

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import ItemsList from './ItemsList.js';
 import Wireframe from './Wireframe.js';
 import { updateEditTime } from '../../store/database/asynchHandler';
 import { firestoreConnect } from 'react-redux-firebase';
+import { CompactPicker } from 'react-color';
 
 class EditScreen extends Component {
     
@@ -37,7 +37,7 @@ class EditScreen extends Component {
     handleNewComponent = (e, type) => {
         let cmps = this.state.components;
         let newComponent = {
-            key: this.state.components.length,
+            key: this.state.components.length + 1,
             type: '',
             value: '',
             x_position: 0,
@@ -81,61 +81,30 @@ class EditScreen extends Component {
 
     handleKeyDown = (e) => {
         e.stopImmediatePropagation();
-        if (e.keyCode == 68 && e.ctrlKey) {
+        if (e.keyCode === 68 && e.ctrlKey) {
             if(this.state.selected != undefined) {
-                console.log("in")
-                let duplicate = document.getElementById(this.state.selected).cloneNode();
+                let duplicate = document.getElementById(this.state.selected);
                 let cmps = this.state.components;
-                let comp = cmps[duplicate.id]
-                let clone = Object.assign({}, comp)
-                clone.key = cmps.length;
-                cmps.push(clone)
+                let comp ;
+                cmps.map((e) => {if(e.key === parseInt(duplicate.id)) comp = Object.assign({}, e)})
+                comp.key = Math.floor(Math.random() * 1000) + cmps.length + 1;
+                // comp.key = cmps.length
+                cmps.push(comp)
                 this.setState({components: cmps});
             }
         }
-        if (e.keyCode == 46) {
-            if(this.state.selected) {
+        if (e.keyCode === 46) {
+            if(this.state.selected != undefined) {
                 let element = document.getElementById(this.state.selected);
-                console.log(element.id)
                 let cmps = this.state.components;
-                cmps.splice(element.id, 1);
-                console.log(cmps)
-                this.setState({components: cmps});
+                let id = parseInt(element.id);
+                let newArr = cmps.filter((e) => e.key !== id)
+                console.log(newArr)
+                this.setState({components: newArr});
             }
         }
     }
 
-    deleteComponent = (e) => {
-        e.stopImmediatePropagation();   
-        if (e.keyCode == 46) {
-            console.log("delete")
-            if(this.state.selected) {
-                let element = document.getElementById(this.state.selected);
-                let cmps = this.state.components;
-                cmps.splice(element.id, 1);
-                // let comp = cmps[element.id]
-                // let clone = Object.assign({}, comp)
-                // clone.key =  cmps.length + 1;
-                // cmps.push(clone)
-                this.setState({components: cmps});
-            }
-        }
-    }
-
-    duplicateComponent = (e) => {
-        e.stopImmediatePropagation();
-        if (e.keyCode == 68 && e.ctrlKey) {
-            if(this.state.selected) {
-                let duplicate = document.getElementById(this.state.selected).cloneNode();
-                let cmps = this.state.components;
-                let comp = cmps[duplicate.id]
-                let clone = Object.assign({}, comp)
-                clone.key =  cmps.length + 1;
-                cmps.push(clone)
-                this.setState({components: cmps});
-            }
-        }
-    }
     goHome = () => {
         this.props.history.push('/ ');
     }
@@ -156,8 +125,8 @@ class EditScreen extends Component {
         const h = document.getElementById('height_field');
         if(h.value === '') h.value = this.state.height; 
         this.setState({
-            width: Math.min(Math.max(w.value, 10), 1000),
-            height: Math.min(Math.max(h.value, 10), 580),
+            width: Math.min(Math.max(w.value, 10), 1150),
+            height: Math.min(Math.max(h.value, 10), 590),
             editDim: 'disabled'
         });
         w.value = '';
@@ -171,13 +140,16 @@ class EditScreen extends Component {
 
     selectComponent = (e, element) => {
         e.stopPropagation();
-        // const element = document.getElementById("wireframe-control-"+ this.props.id);
         this.setState({selected: element})
-        console.log('selected')
+        
     }
 
     deSelectComponent = () => {
         this.setState({selected: null})
+    }
+
+    handleEditProperties = () => {
+
     }
     
 
@@ -189,6 +161,24 @@ class EditScreen extends Component {
         const diagram = this.props.diagram;
         if(!diagram)
              return <React.Fragment />
+        let loadProperties = {
+            font_size: '',
+            background_color: '',
+            border_color: '',
+            border_thickness: '',
+            border_radius: '',
+            value: ''
+        } 
+        
+        if(this.state.selected !== null) {
+            this.state.components.map((e) => {if(e.key === parseInt(this.state.selected)) {
+                loadProperties = e.properties
+                loadProperties.value = e.value
+                }
+            } )
+            
+            // loadProperties = this.state.components[this.state.selected].properties;
+        }
         return (
             <div className="content-area" >
                 <div className="row">
@@ -242,66 +232,28 @@ class EditScreen extends Component {
                       
                     <div className = "side-bar-right right right-slide-anim col s1 z-depth-2 brown lighten-4">
                         <h5 className="">Properties</h5>
+                        <div className="right-side-bar">Value:
+                            <input type="text" className="right-side-text-input right"
+                             value = {loadProperties.value} onChange={this.handleEditProperties} />
+                        </div>
                         <div className="right-side-bar">Font Size:
-                            <input type="text" className="right-side-text-input right"/>
+                            <input type="text" className="right-side-text-input right"
+                             value = {loadProperties.font_size} onChange={this.handleEditProperties} />
                         </div>
-                        {/* now I can do if selected, load this thing w/ properties */}
-                        {/* <div className="right-side-wrapper">
-                            <div className="properties-labels right-side-bar center">
-                                <div className="right-side-bar">Font Size:</div>                
-                                <div className="right-side-bar">Background:</div>                  
-                                <div className="right-side-bar">Border Color:</div>                  
-                                <div className="right-side-bar">Border Thickness:</div>                  
-                                <div className="right-side-bar">Border Radius:</div>                  
-                            </div>
-                            <div className="properties-controls right-side-bar ">
-                                <div className="right-side-bar right">
-                                    <input type="text" className=" right-side-text-input"/>
-                                </div>
-                                <div className=" color-wrapper z-depth-1">
-                                    <input type="color" className=" "/>
-                                </div>     
-                                <div className=" color-wrapper z-depth-1">
-                                    <input type="color" className=" "/>
-                                </div>     
-                                <div className=" color-wrapper z-depth-1">
-                                    <input type="color" className=" "/>
-                                </div> 
-                                <div className="right-side-bar ">
-                                    <input type="text" className=" right-side-text-input"/>
-                                </div>
-                                <div className="right-side-bar ">
-                                    <input type="text" className=" right-side-text-input"/>
-                                </div>    
-                            </div>
-                        </div> */}
-                        {/* placeholder should be the current font size */}
-                        {/* <div className="right-side-bar">Font Size:
-                            <input type="text" className="right-side-text-input"/>
-                            
+                        <div className="right-side-bar"> Background Color:
+                            <CompactPicker  />
                         </div>
-                        <div className="right-side-bar">Text Color:
-                            <span className="color-wrapper z-depth-1 ">
-                                <input type="color" className=""/>
-                            </span>
-                            
-                        </div>
-                        <div className="right-side-bar">Background:
-                            <span className="color-wrapper z-depth-1 ">
-                                <input type="color" className=""/>
-                            </span>
-                        </div>
-                        <div className="right-side-bar">Border Color:
-                            <span className="color-wrapper z-depth-1 ">
-                                <input type="color" className=""/>
-                            </span>
+                        <div className="right-side-bar"> Border Color:
+                            <CompactPicker />
                         </div>
                         <div className="right-side-bar">Border Thickness:
-                            <input type="text" className="right-side-text-input"/>
+                            <input type="text" className="right-side-text-input right" 
+                            value = {loadProperties.border_thickness} onChange={this.handleEditProperties} />
                         </div>
                         <div className="right-side-bar">Border Radius:
-                            <input type="text" className="right-side-text-input"/>
-                        </div> */}
+                            <input type="text" className="right-side-text-input right"
+                            value = {loadProperties.border_radius} onChange={this.handleEditProperties} />
+                        </div>
                     </div>
                     <Wireframe components={this.state.components} diagram = {this.props.diagram}
                      width = {this.state.width} height = {this.state.height} transform = {this.state.transform}
