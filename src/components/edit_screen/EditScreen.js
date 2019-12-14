@@ -30,7 +30,7 @@ class EditScreen extends Component {
     handleNewComponent = (e, type) => {
         let cmps = this.state.components;
         let newComponent = {
-            key: this.state.components.length + 1,
+            key: Math.floor(Math.random() * 1000) + cmps.length + 1,
             type: '',
             value: '',
             x_position: 0,
@@ -44,6 +44,7 @@ class EditScreen extends Component {
                 border_thickness: 1,
                 border_radius: 3
             }
+            
         }
         switch(type) {
             case 'container':
@@ -69,43 +70,50 @@ class EditScreen extends Component {
         console.log(newComponent)
         cmps.push(newComponent);
         this.setState({components: cmps});
-
+        
     }
 
     handleKeyDown = (e) => {
-    //     e.stopImmediatePropagation();
-    //     if (e.keyCode === 68 && e.ctrlKey) {
-    //         if(this.state.selected !== null) {
-    //             let cmps = [...this.state.components]
-    //             let id = parseInt(this.state.selected);
-    //             let comp = {} ;
-    //             for(let i = 0; i < cmps.length; i ++) {
-    //                 if(cmps[i].key === id) Object.assign(comp, cmps[i])
-    //             }
-    //             comp.key = Math.floor(Math.random() * 1000) + cmps.length + 1;
-    //             comp.properties.x_position += 100;
-    //             comp.properties.y_position += 100;
-    //             cmps.push(comp)
-    //             this.setState({components: cmps});
-    //         }
-    //     }
-        if (e.keyCode === 46) {
-            if(this.state.selected !== null) {
+        e.stopImmediatePropagation();
+        if (e.keyCode === 68 && e.ctrlKey) {
+            if(this.state.selected ) {
                 let cmps = this.state.components.map(a => ({...a}));
                 let id = parseInt(this.state.selected);
+                let comp;
+                cmps.map((e) => {
+                    if(e.key === id) comp = JSON.parse( JSON.stringify( e ) ) ;
+                })
+                
+                comp.key = Math.floor(Math.random() * 1000) + cmps.length + 1;
+                comp.x_position += 100;
+                comp.y_position += 100;
+                cmps.push(comp)
+                console.log(comp)
+                this.setState({components: cmps});
+            }
+        }
+        if (e.keyCode === 46) {
+            if(this.state.selected !== null) {
+                console.log(this.state.selected )
+                let cmps = this.state.components.map(a => ({...a}));
+                let id = parseInt(this.state.selected);
+                
                 let newArr = cmps.filter((e) => e.key !== id)
-                console.log(newArr)
-                this.setState({components: newArr});
+                this.setState({components: newArr}, () => {
+                    this.setState({selected: null})
+                });
+                
             }
         }
     }
 
     goHome = () => {
         this.props.history.push('/ ');
+        window.location.reload(true);
     }
 
     handleSaveDiagram = () => {
-        let oldDiagram = this.props.location.state.diagram;
+        let oldDiagram = this.props.diagram;
         let id = this.props.id;
         let diagram = {
             owner_name: oldDiagram.owner_name,
@@ -149,7 +157,9 @@ class EditScreen extends Component {
 
     selectComponent = (e, element) => {
         e.stopPropagation();
-        this.setState({selected: element})
+        this.setState({selected: element}, () => {
+            console.log(this.state.selected)
+        })
         
     }
 
@@ -159,7 +169,6 @@ class EditScreen extends Component {
 
     handleEditDetails = (data) => {
         let cmps = this.state.components;
-        console.log(data)
         cmps.map((e) => {if(e.key === this.state.selected) {
             e.x_position = data.x === undefined ? e.x_position : parseInt(data.x);
             e.y_position = data.y === undefined ? e.y_position : parseInt(data.y);
@@ -186,7 +195,6 @@ class EditScreen extends Component {
     }
     handleEditBackgroundColor = (color, event) => {
         let cmps = this.state.components.map(a => ({...a}));
-        // let cmps = Object.assign({}, this.state.components);
         cmps.map((e) => {if(e.key === this.state.selected) {
                 e.properties.background_color = color.hex;
             } 
@@ -201,6 +209,11 @@ class EditScreen extends Component {
         })
         this.setState({components: cmps})
     }
+
+    componentDidMount() {
+        console.log('edit screen mounted')
+    }
+
 
 
     render() { 
@@ -222,7 +235,6 @@ class EditScreen extends Component {
         
         if(this.state.selected !== null) {
             this.state.components.map((e) => {if(e.key === parseInt(this.state.selected)) {
-                console.log(e, this.state.selected)
                 loadProperties = e.properties
                 loadProperties.value = e.value
                 }

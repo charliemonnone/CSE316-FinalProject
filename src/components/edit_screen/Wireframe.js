@@ -44,17 +44,15 @@ class Wireframe extends React.Component {
     componentDidMount() {
         this.setDimensions();
         this.setZoom();
+        console.log('wireframe mounted')
     }
 
     render() {
         return (
             <div id="scrollable" className="scrollable bottom-slide-anim">
                 <div id="wireframe" className = "layout-area brown lighten-4 z-depth-2 " onClick = {this.props.deselect}>
-                    <WireframeComponents components = {this.props.components} selected={this.props.selected} updateDetails = {this.props.updateDetails}
+                    <WireframeComponents key = {this.props.components} components = {this.props.components} selected={this.props.selected} updateDetails = {this.props.updateDetails}
                     select = {this.props.select} deselect = {this.props.deselect} />
-                    {/* react component holding controls is passed the components pulled from loaded diagram, add controls added 
-                    to this local array, when saved applied to firebase */}
-                    
                 </div>
             </div>
             

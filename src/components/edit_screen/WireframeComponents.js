@@ -3,6 +3,16 @@ import WireframeControl from './WireframeControl';
 
 
 class WireframeComponents extends React.Component {
+    state = {
+        components: []
+    }
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps !== prevState) {
+            return {components: nextProps.components}
+        }
+        else return null;
+    }
+
     render() {
         const components = this.props.components;
         if(!components) return <React.Fragment />

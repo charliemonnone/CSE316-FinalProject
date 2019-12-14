@@ -47,10 +47,6 @@ class WireframeControl extends React.Component {
         con.style.fontSize = this.state.properties.font_size + 'px';
         con.style.background = this.state.properties.background_color;
         con.style.color = "#424242"
-
-        // maybe pass contraint values as props and restrict placement to within wireframe
-        // handles are only for resizing but they also denote that the control is selected
-        // should they always be a part of the rendered element and toggled on off?
     }
     componentDidUpdate(prevProps, prevState) {
         if (this.props !== prevProps ) {
@@ -94,11 +90,8 @@ class WireframeControl extends React.Component {
         }
       
         function closeDragElement(e) {
-
             let y = top
-            // let y = top.split('px')[0]
             let x = left
-            // let x = left.split('px')[0]
             onMove(e, x, y)
             document.onmouseup = null;
             document.onmousemove = null;
@@ -106,6 +99,7 @@ class WireframeControl extends React.Component {
             
         }
     }
+    
 
     render() {
         let elementStyle = 'wireframe-control z-depth-1 ';
