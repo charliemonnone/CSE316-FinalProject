@@ -124,7 +124,7 @@ color: gold !important;
 .right-side-bar {  
   /* margin: auto; */
   margin-top: 0%;
-  margin-bottom: 15%;
+  margin-bottom: 10%;
   width: 100%;
   border-radius: 5px;
 }
@@ -275,4 +275,13 @@ input[type="color"] {
   right: 0;
   cursor: ne-resize;
   transform: rotate(270deg);
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance:textfield; /* Firefox */
 }

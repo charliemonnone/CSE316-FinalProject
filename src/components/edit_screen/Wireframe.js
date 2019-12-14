@@ -25,19 +25,8 @@ class Wireframe extends React.Component {
         wf.style.transform = 'scale('+ this.state.transform + ')';
     }
 
-    // selectComponent = (e, element) => {
-    //     e.stopPropagation();
-    //     // const element = document.getElementById("wireframe-control-"+ this.props.id);
-    //     this.setState({selected: element})
-    //     console.log('selected')
-    // }
-
-    // deSelectComponent = () => {
-    //     this.setState({selected: null})
-    // }
 
     static getDerivedStateFromProps(nextProps, prevState){
-
         if(nextProps !== prevState) {
             return {width: nextProps.width, height: nextProps.height, transform: nextProps.transform}
         }
@@ -61,7 +50,7 @@ class Wireframe extends React.Component {
         return (
             <div id="scrollable" className="scrollable bottom-slide-anim">
                 <div id="wireframe" className = "layout-area brown lighten-4 z-depth-2 " onClick = {this.props.deselect}>
-                    <WireframeComponents components = {this.props.components} selected={this.props.selected} 
+                    <WireframeComponents components = {this.props.components} selected={this.props.selected} updateDetails = {this.props.updateDetails}
                     select = {this.props.select} deselect = {this.props.deselect} />
                     {/* react component holding controls is passed the components pulled from loaded diagram, add controls added 
                     to this local array, when saved applied to firebase */}

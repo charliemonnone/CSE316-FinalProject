@@ -21,11 +21,19 @@ class WireframeControl extends React.Component {
     onResize = (event, {element, size, handle}) => {
         event.stopPropagation();
         event.preventDefault();
-        this.setState({width: size.width, height: size.height});
+        this.setState({width: size.width, height: size.height}, () => {
+            
+        });
     };
 
-    onMove = (newX, newY) => {
-        this.setState({x: newX, y: newY});
+
+    onMove = (event, newX, newY) => {
+        event.stopPropagation();
+        event.preventDefault();
+        console.log('new x ' + newX)
+        this.setState({x: newX, y: newY}, () => {
+            this.props.updateDetails(this.state)
+        });
     }
 
     setProperties = () => {
@@ -44,6 +52,11 @@ class WireframeControl extends React.Component {
         // handles are only for resizing but they also denote that the control is selected
         // should they always be a part of the rendered element and toggled on off?
     }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props !== prevProps ) {
+            this.setProperties()
+        }
+    }
 
     componentDidMount() {
         this.setProperties();
@@ -52,6 +65,8 @@ class WireframeControl extends React.Component {
     dragElement = (id, onMove) => {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         let elmnt = document.getElementById(id);
+        let left;
+        let top;
         elmnt.onmousedown = dragMouseDown;
         
         function dragMouseDown(e) {
@@ -70,20 +85,25 @@ class WireframeControl extends React.Component {
             pos2 = pos4 - e.clientY;
             pos3 = e.clientX;
             pos4 = e.clientY;
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            top = (elmnt.offsetTop - pos2)
+            left = (elmnt.offsetLeft - pos1)
+            console.log(left)
+            elmnt.style.top = top + "px";
+            elmnt.style.left = left + "px";
           
         }
       
-        function closeDragElement() {
+        function closeDragElement(e) {
+
+            let y = top
+            // let y = top.split('px')[0]
+            let x = left
+            // let x = left.split('px')[0]
+            onMove(e, x, y)
             document.onmouseup = null;
             document.onmousemove = null;
             elmnt.onmousedown = null;
-            let top = elmnt.style.top;
-            let left = elmnt.style.left;
-            let y = top.split('px')[0]
-            let x = left.split('px')[0]
-            onMove(x, y)
+            
         }
     }
 
@@ -115,7 +135,7 @@ class WireframeControl extends React.Component {
         }
         return(
             <Resizable id={elementId} onClick = {(e)=> this.props.select(e, elementId)} 
-            height={this.state.height} width={this.state.width} onResize={this.onResize} resizeHandles={handles}
+            height={this.state.height} width={this.state.width} onResize={this.onResize} onResizeStop={() => this.props.updateDetails(this.state)} resizeHandles={handles}
             className={"box " + elementStyle}>
                 <div className={"box " + elementStyle} style={{width: this.state.width + 'px', height: this.state.height + 'px'}} >
                     {innerValue}

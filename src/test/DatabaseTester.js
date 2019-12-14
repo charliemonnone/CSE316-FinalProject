@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
 import diagramJson from './DiagramData.json'
 import { getFirestore } from 'redux-firestore';
 
@@ -39,6 +40,14 @@ class DatabaseTester extends React.Component {
     render() {
         console.log("in tester")
         console.log(this.props.firebase);
+        let profile = this.props.firebase.profile;
+        if(profile.user_level !== undefined) {
+            if(profile.user_level !== 'admin') {
+            alert('Only administrators have database access')
+            return <Redirect to="/" />;
+        }
+        }
+        
         return (
             <div>
                 <button onClick={this.handleClear}>Clear Database</button>

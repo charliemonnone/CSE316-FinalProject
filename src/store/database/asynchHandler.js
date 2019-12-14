@@ -58,3 +58,14 @@ export const updateEditTime = (id) => (dispatch, getState, { getFirestore }) => 
     lastEdit: new Date(),
   });
 }
+
+export const saveDiagramChanges = (id, diagram) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  let docRef = firestore.collection('diagrams').doc(id);
+  docRef.update({
+    components: diagram.components,
+    diagram_name: diagram.diagram_name,
+    wireframe: diagram.wireframe,
+    lastEdit: new Date(),
+  });
+}

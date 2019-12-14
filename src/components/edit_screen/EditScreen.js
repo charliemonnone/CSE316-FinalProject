@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Wireframe from './Wireframe.js';
-import { updateEditTime } from '../../store/database/asynchHandler';
+import { updateEditTime, saveDiagramChanges } from '../../store/database/asynchHandler';
 import { firestoreConnect } from 'react-redux-firebase';
 import { CompactPicker } from 'react-color';
 
@@ -14,24 +14,17 @@ class EditScreen extends Component {
         let diagram = props.location.state.diagram;
         const id = props.id;
         props.updateEditTime(id);
+        document.addEventListener('keydown',(e) => this.handleKeyDown(e))
         this.state = {
             name: diagram.diagram_name,
             width: diagram.wireframe.width,
             height: diagram.wireframe.height,
             editDim: 'disabled',
+            save: 'disabled',
             transform: 0.9,
             components: diagram.components,
-            selected: null
+            selected: null,
         }
-    }
-    
-    componentDidMount = () => {
-        const { diagram } = this.props.location.state
-        this.setState({
-            width: diagram.wireframe.width,
-            height: diagram.wireframe.height,
-        });
-        document.addEventListener('keydown',(e) => this.handleKeyDown(e))
     }
 
     handleNewComponent = (e, type) => {
@@ -80,24 +73,26 @@ class EditScreen extends Component {
     }
 
     handleKeyDown = (e) => {
-        e.stopImmediatePropagation();
-        if (e.keyCode === 68 && e.ctrlKey) {
-            if(this.state.selected != undefined) {
-                let duplicate = document.getElementById(this.state.selected);
-                let cmps = this.state.components;
-                let comp ;
-                cmps.map((e) => {if(e.key === parseInt(duplicate.id)) comp = Object.assign({}, e)})
-                comp.key = Math.floor(Math.random() * 1000) + cmps.length + 1;
-                // comp.key = cmps.length
-                cmps.push(comp)
-                this.setState({components: cmps});
-            }
-        }
+    //     e.stopImmediatePropagation();
+    //     if (e.keyCode === 68 && e.ctrlKey) {
+    //         if(this.state.selected !== null) {
+    //             let cmps = [...this.state.components]
+    //             let id = parseInt(this.state.selected);
+    //             let comp = {} ;
+    //             for(let i = 0; i < cmps.length; i ++) {
+    //                 if(cmps[i].key === id) Object.assign(comp, cmps[i])
+    //             }
+    //             comp.key = Math.floor(Math.random() * 1000) + cmps.length + 1;
+    //             comp.properties.x_position += 100;
+    //             comp.properties.y_position += 100;
+    //             cmps.push(comp)
+    //             this.setState({components: cmps});
+    //         }
+    //     }
         if (e.keyCode === 46) {
-            if(this.state.selected != undefined) {
-                let element = document.getElementById(this.state.selected);
-                let cmps = this.state.components;
-                let id = parseInt(element.id);
+            if(this.state.selected !== null) {
+                let cmps = this.state.components.map(a => ({...a}));
+                let id = parseInt(this.state.selected);
                 let newArr = cmps.filter((e) => e.key !== id)
                 console.log(newArr)
                 this.setState({components: newArr});
@@ -107,6 +102,20 @@ class EditScreen extends Component {
 
     goHome = () => {
         this.props.history.push('/ ');
+    }
+
+    handleSaveDiagram = () => {
+        let oldDiagram = this.props.location.state.diagram;
+        let id = this.props.id;
+        let diagram = {
+            owner_name: oldDiagram.owner_name,
+            user_id: "",
+            diagram_name: this.state.name,
+            wireframe: {width: this.state.width, height: this.state.height,},
+            components: this.state.components,
+        }
+        console.log(diagram)
+        this.props.saveDiagramChanges(id, diagram)
     }
 
     handleEditDim = () => {
@@ -148,10 +157,51 @@ class EditScreen extends Component {
         this.setState({selected: null})
     }
 
-    handleEditProperties = () => {
+    handleEditDetails = (data) => {
+        let cmps = this.state.components;
+        console.log(data)
+        cmps.map((e) => {if(e.key === this.state.selected) {
+            e.x_position = data.x === undefined ? e.x_position : parseInt(data.x);
+            e.y_position = data.y === undefined ? e.y_position : parseInt(data.y);
+            e.width = data.width;
+            e.height = data.height;
+            console.log(e)
+            }
+        })
+        this.setState({components: cmps}, console.log(this.state.components))
+    }
+
+    handleEditProperty = (event) => {
+        const element = document.getElementById(event.target.id);
+        const selectedProperty = event.target.id;
+        console.log(element.value)
+        let cmps = this.state.components;
+        cmps.map((e) => {if(e.key === this.state.selected) {
+                if(selectedProperty === 'value') e[selectedProperty] = element.value;
+                else e.properties[selectedProperty] = element.value;
+            } 
+        })
+        this.setState({components: cmps})
 
     }
-    
+    handleEditBackgroundColor = (color, event) => {
+        let cmps = this.state.components.map(a => ({...a}));
+        // let cmps = Object.assign({}, this.state.components);
+        cmps.map((e) => {if(e.key === this.state.selected) {
+                e.properties.background_color = color.hex;
+            } 
+        })
+        this.setState({components: cmps})
+    }
+    handleEditBorderColor = (color, event) => {
+        let cmps = this.state.components;
+        cmps.map((e) => {if(e.key === this.state.selected) {
+                e.properties.border_color = color.hex;
+            } 
+        })
+        this.setState({components: cmps})
+    }
+
 
     render() { 
         const auth = this.props.auth;
@@ -172,12 +222,11 @@ class EditScreen extends Component {
         
         if(this.state.selected !== null) {
             this.state.components.map((e) => {if(e.key === parseInt(this.state.selected)) {
+                console.log(e, this.state.selected)
                 loadProperties = e.properties
                 loadProperties.value = e.value
                 }
             } )
-            
-            // loadProperties = this.state.components[this.state.selected].properties;
         }
         return (
             <div className="content-area" >
@@ -189,7 +238,7 @@ class EditScreen extends Component {
                             <div className=" btn toolbar-btn toolbar-btn-color horizontal-spacer waves-effect waves-light" onClick={(e) => this.handleChangeZoom(e, 0.5)} >
                                 <i className="material-icons small toolbar-text valign-wrapper grey-text text-darken-3">zoom_out</i>
                             </div>
-                            <div className=" btn toolbar-btn toolbar-btn-color horizontal-spacer waves-effect waves-light">
+                            <div className=" btn toolbar-btn toolbar-btn-color horizontal-spacer waves-effect waves-light " onClick={this.handleSaveDiagram} >
                                 <i className="material-icons small toolbar-text valign-wrapper grey-text text-darken-3">save</i>
                             </div>
                             <div className=" btn toolbar-btn toolbar-btn-color horizontal-spacer waves-effect waves-light" onClick={this.goHome} >
@@ -198,8 +247,8 @@ class EditScreen extends Component {
                             <div className= {"right btn toolbar-btn  waves-effect waves-light " + this.state.editDim} onClick={this.handleChangeDimension}>
                                 <i className="material-icons small toolbar-text valign-wrapper grey-text text-darken-3">update</i>
                             </div>
-                            <input id="height_field" className="wireframe-option right " type="text"  name="height" onChange={this.handleEditDim} placeholder = {"Current height: " + this.state.height}  />
-                            <input id="width_field" className="wireframe-option right " type="text" name="width" onChange={this.handleEditDim}  placeholder = {"Current width: " + this.state.width}  />
+                            <input id="height_field" className="wireframe-option right " type="number"  name="height" onChange={this.handleEditDim} placeholder = {"Current height: " + this.state.height}  />
+                            <input id="width_field" className="wireframe-option right " type="number" name="width" onChange={this.handleEditDim}  placeholder = {"Current width: " + this.state.width}  />
                             <input id="name_field" className="wireframe-option right " type="text" name="width" onChange={this.handleEditName}  value = {this.state.name}  />
                             
                     </div>
@@ -232,30 +281,30 @@ class EditScreen extends Component {
                       
                     <div className = "side-bar-right right right-slide-anim col s1 z-depth-2 brown lighten-4">
                         <h5 className="">Properties</h5>
-                        <div className="right-side-bar">Value:
-                            <input type="text" className="right-side-text-input right"
-                             value = {loadProperties.value} onChange={this.handleEditProperties} />
+                        <div className="right-side-bar">Text:
+                            <input id="value" type="text" className="right-side-text-input right"
+                             value = {loadProperties.value} onChange={this.handleEditProperty} />
                         </div>
                         <div className="right-side-bar">Font Size:
-                            <input type="text" className="right-side-text-input right"
-                             value = {loadProperties.font_size} onChange={this.handleEditProperties} />
+                            <input id="font_size" type="number" className="right-side-text-input right"
+                             value = {loadProperties.font_size} onChange={this.handleEditProperty} />
                         </div>
                         <div className="right-side-bar"> Background Color:
-                            <CompactPicker  />
+                            <CompactPicker id="background_color" color = {loadProperties.background_color} onChange={this.handleEditBackgroundColor} />
                         </div>
                         <div className="right-side-bar"> Border Color:
-                            <CompactPicker />
+                            <CompactPicker id="border_color" color = {loadProperties.border_color} onChange={this.handleEditBorderColor} />
                         </div>
                         <div className="right-side-bar">Border Thickness:
-                            <input type="text" className="right-side-text-input right" 
-                            value = {loadProperties.border_thickness} onChange={this.handleEditProperties} />
+                            <input id="border_thickness" type="number" className="right-side-text-input right" 
+                            value = {loadProperties.border_thickness} onChange={this.handleEditProperty} />
                         </div>
                         <div className="right-side-bar">Border Radius:
-                            <input type="text" className="right-side-text-input right"
-                            value = {loadProperties.border_radius} onChange={this.handleEditProperties} />
+                            <input id="border_radius" type="number" className="right-side-text-input right"
+                            value = {loadProperties.border_radius} onChange={this.handleEditProperty} />
                         </div>
                     </div>
-                    <Wireframe components={this.state.components} diagram = {this.props.diagram}
+                    <Wireframe components={this.state.components} diagram = {this.props.diagram} updateDetails = {this.handleEditDetails}
                      width = {this.state.width} height = {this.state.height} transform = {this.state.transform}
                      selected = {this.state.selected} select = {this.selectComponent} deselect = {this.deSelectComponent} />
                 </div>
@@ -279,6 +328,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
     updateEditTime: (id) => dispatch(updateEditTime(id)),
+    saveDiagramChanges: (id, diagram) => dispatch(saveDiagramChanges(id, diagram))
 });
 
 export default compose(
