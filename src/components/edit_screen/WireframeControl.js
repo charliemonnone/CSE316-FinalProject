@@ -14,7 +14,7 @@ class WireframeControl extends React.Component {
             height: props.component.height,
             type: props.component.type,
             properties: props.component.properties,
-            selected: null,
+            selected: '',
         }
     }
 
@@ -48,6 +48,14 @@ class WireframeControl extends React.Component {
         con.style.background = this.state.properties.background_color;
         con.style.color = "#424242"
     }
+
+    handleKeyDown = (e) => {
+        console.log('aaaa')
+        if (e.keyCode === 46) {
+            console.log('will delete')
+        }
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (this.props !== prevProps ) {
             this.setProperties()
@@ -56,6 +64,8 @@ class WireframeControl extends React.Component {
 
     componentDidMount() {
         this.setProperties();
+        // let e = document.getElementById(this.props.id);
+        // e.addEventListener('keydown',(e) => this.handleKeyDown(e))
     }
 
     dragElement = (id, onMove) => {
@@ -130,7 +140,7 @@ class WireframeControl extends React.Component {
         return(
             <Resizable id={elementId} onClick = {(e)=> this.props.select(e, elementId)} 
             height={this.state.height} width={this.state.width} onResize={this.onResize} onResizeStop={() => this.props.updateDetails(this.state)} resizeHandles={handles}
-            className={"box " + elementStyle}>
+            className={"box " + elementStyle} >
                 <div className={"box " + elementStyle} style={{width: this.state.width + 'px', height: this.state.height + 'px'}} >
                     {innerValue}
                 </div>

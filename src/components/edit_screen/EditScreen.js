@@ -14,7 +14,7 @@ class EditScreen extends Component {
         let diagram = props.location.state.diagram;
         const id = props.id;
         props.updateEditTime(id);
-        document.addEventListener('keydown',(e) => this.handleKeyDown(e))
+        
         this.state = {
             name: diagram.diagram_name,
             width: diagram.wireframe.width,
@@ -76,7 +76,7 @@ class EditScreen extends Component {
     handleKeyDown = (e) => {
         e.stopImmediatePropagation();
         if (e.keyCode === 68 && e.ctrlKey) {
-            if(this.state.selected ) {
+            if(this.state.selected !== null) {
                 let cmps = this.state.components.map(a => ({...a}));
                 let id = parseInt(this.state.selected);
                 let comp;
@@ -93,11 +93,11 @@ class EditScreen extends Component {
             }
         }
         if (e.keyCode === 46) {
+            
             if(this.state.selected !== null) {
-                console.log(this.state.selected )
+                
                 let cmps = this.state.components.map(a => ({...a}));
                 let id = parseInt(this.state.selected);
-                
                 let newArr = cmps.filter((e) => e.key !== id)
                 this.setState({components: newArr}, () => {
                     this.setState({selected: null})
@@ -109,7 +109,6 @@ class EditScreen extends Component {
 
     goHome = () => {
         this.props.history.push('/ ');
-        window.location.reload(true);
     }
 
     handleSaveDiagram = () => {
@@ -157,9 +156,7 @@ class EditScreen extends Component {
 
     selectComponent = (e, element) => {
         e.stopPropagation();
-        this.setState({selected: element}, () => {
-            console.log(this.state.selected)
-        })
+        this.setState({selected: parseInt(element)})
         
     }
 
@@ -211,7 +208,11 @@ class EditScreen extends Component {
     }
 
     componentDidMount() {
-        console.log('edit screen mounted')
+        document.addEventListener('keydown',this.handleKeyDown)
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown)
     }
 
 
@@ -240,6 +241,8 @@ class EditScreen extends Component {
                 }
             } )
         }
+        
+        console.log('selected: ' + this.state.selected);
         return (
             <div className="content-area" >
                 <div className="row">
